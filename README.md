@@ -16,7 +16,7 @@
 
 # 🌐 Live Demo
 
-**Website:** [https://cognitive-stress-analyzer.netlify.app/](https://69d7dd327d9de11fd742dfa5--cognitive-stress-analyzer.netlify.app/)
+**Website:** [https://cognitive-stress-analyzer.netlify.app/](https://6a4a17f8343c2c20fa3f3857--congintivestressanalyzer.netlify.app/)
 
 # 📂 GitHub Repository
 

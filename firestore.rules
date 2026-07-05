@@ -1,0 +1,94 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: userId (Firebase Auth UID)
+    // Fields:
+    //   - username: string (required, 1-50 chars)
+    //   - bio: string (optional, 0-500 chars)
+    //   - goal: string (optional, 0-100 chars)
+    //   - avatarUrl: string (optional, 0-1000000 chars - base64)
+    //   - createdAt: timestamp (required)
+    //
+    // Subcollections: analyzer_history, planner_history, chat_history, activity_log
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['username', 'createdAt', 'email']) &&
+             data.username is string && data.username.size() >= 1 && data.username.size() <= 50 &&
+             data.email is string && data.email.size() >= 3 &&
+             (!('bio' in data) || (data.bio is string && data.bio.size() <= 500)) &&
+             (!('goal' in data) || (data.goal is string && data.goal.size() <= 100)) &&
+             (!('avatarUrl' in data) || (data.avatarUrl is string && data.avatarUrl.size() <= 1000000)) &&
+             data.createdAt is timestamp;
+    }
+
+    function isValidAnalyzerHistory(data) {
+      return data.keys().hasAll(['inputs', 'result', 'timestamp']) &&
+             data.inputs is map && data.result is map && data.timestamp is number;
+    }
+
+    function isValidPlannerHistory(data) {
+      return data.keys().hasAll(['inputs', 'plan', 'timestamp']) &&
+             data.inputs is map && data.plan is list && data.timestamp is number;
+    }
+
+    function isValidChatHistory(data) {
+      return data.keys().hasAll(['userMessage', 'aiResponse', 'timestamp']) &&
+             data.userMessage is string && data.userMessage.size() <= 1000 &&
+             data.aiResponse is string && data.aiResponse.size() <= 2000 &&
+             data.timestamp is number;
+    }
+
+    function isValidActivityLog(data) {
+      return data.keys().hasAll(['action', 'timestamp']) &&
+             data.action is string && data.action.size() <= 100 &&
+             data.timestamp is number;
+    }
+
+    function isValidJournalHistory(data) {
+      return data.keys().hasAll(['text', 'analysis', 'timestamp']) &&
+             data.text is string && data.text.size() <= 5000 &&
+             data.analysis is map &&
+             data.timestamp is number;
+    }
+
+    match /users/{userId} {
+      allow get: if isAuthenticated();
+      allow list: if true; // Required for username uniqueness check and username-based login
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidUser(request.resource.data) && 
+                    request.resource.data.createdAt == resource.data.createdAt;
+
+      match /analyzer_history/{id} {
+        allow read, write: if isOwner(userId);
+      }
+      match /planner_history/{id} {
+        allow read, write: if isOwner(userId);
+      }
+      match /chat_history/{id} {
+        allow read, write: if isOwner(userId);
+      }
+      match /activity_log/{id} {
+        allow read, write: if isOwner(userId);
+      }
+      match /journal_history/{id} {
+        allow read, write: if isOwner(userId);
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "Cognitive Stress Analyzer using AI",
+  "description": "An AI-powered tool to analyze student behavior, predict stress levels, and provide personalized cognitive health insights.",
+  "requestFramePermissions": []
+}

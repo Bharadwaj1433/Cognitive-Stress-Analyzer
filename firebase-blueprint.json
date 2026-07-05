@@ -1,0 +1,117 @@
+{
+  "entities": {
+    "users": {
+      "title": "User Profile",
+      "description": "Stores user profile and session information.",
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "The user's display name."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's email address."
+        },
+        "bio": {
+          "type": "string",
+          "description": "User's biography."
+        },
+        "goal": {
+          "type": "string",
+          "description": "User's cognitive goal."
+        },
+        "avatarUrl": {
+          "type": "string",
+          "description": "URL to the user's avatar image."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the user account was created."
+        }
+      },
+      "required": ["username", "email", "createdAt"]
+    },
+    "analyzer_history": {
+      "title": "Analyzer History",
+      "description": "Stores stress analysis results.",
+      "type": "object",
+      "properties": {
+        "inputs": { "type": "object" },
+        "result": { "type": "object" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["inputs", "result", "timestamp"]
+    },
+    "planner_history": {
+      "title": "Planner History",
+      "description": "Stores generated daily plans.",
+      "type": "object",
+      "properties": {
+        "inputs": { "type": "object" },
+        "plan": { "type": "array" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["inputs", "plan", "timestamp"]
+    },
+    "chat_history": {
+      "title": "Chat History",
+      "description": "Stores therapist chat messages.",
+      "type": "object",
+      "properties": {
+        "userMessage": { "type": "string" },
+        "aiResponse": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["userMessage", "aiResponse", "timestamp"]
+    },
+    "activity_log": {
+      "title": "Activity Log",
+      "description": "Stores user actions.",
+      "type": "object",
+      "properties": {
+        "action": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["action", "timestamp"]
+    },
+    "journal_history": {
+      "title": "Journal History",
+      "description": "Stores emotional journal analysis results.",
+      "type": "object",
+      "properties": {
+        "text": { "type": "string" },
+        "analysis": { "type": "object" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["text", "analysis", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "users",
+      "description": "Individual user profiles."
+    },
+    "/users/{userId}/analyzer_history/{historyId}": {
+      "schema": "analyzer_history",
+      "description": "User's stress analysis history."
+    },
+    "/users/{userId}/planner_history/{historyId}": {
+      "schema": "planner_history",
+      "description": "User's daily planning history."
+    },
+    "/users/{userId}/chat_history/{historyId}": {
+      "schema": "chat_history",
+      "description": "User's therapist chat history."
+    },
+    "/users/{userId}/activity_log/{logId}": {
+      "schema": "activity_log",
+      "description": "User's activity log."
+    },
+    "/users/{userId}/journal_history/{historyId}": {
+      "schema": "journal_history",
+      "description": "User's emotional journal history."
+    }
+  }
+}

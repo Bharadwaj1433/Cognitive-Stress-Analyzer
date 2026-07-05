@@ -336,46 +336,6 @@ Netlify will automatically redeploy your application whenever you push changes t
 
 ---
 
-# 📷 Screenshots
-
-Add screenshots here after deployment.
-
-### Home Page
-
-> Insert Screenshot
-
----
-
-### Stress Analysis Dashboard
-
-> Insert Screenshot
-
----
-
-### AI Therapist
-
-> Insert Screenshot
-
----
-
-### Smart Daily Planner
-
-> Insert Screenshot
-
----
-
-### Activity History
-
-> Insert Screenshot
-
----
-
-### Weekly Report
-
-> Insert Screenshot
-
----
-
 # 💡 Future Improvements
 
 * Calendar integration

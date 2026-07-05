@@ -292,7 +292,7 @@ with your own API key.
 
 ---
 
-# 🌍 Deploying on Netlify
+# 🌍 Deploying 
 
 ## Method 1 — Deploy from GitHub (Recommended)
 
@@ -326,13 +326,116 @@ Netlify will automatically redeploy your application whenever you push changes t
 
 ---
 
-## Method 2 — Drag & Drop
+## Method 2 — Deploy on Netlify
 
-1. Open Netlify.
-2. Choose **Deploy manually**.
-3. Drag the project folder containing `index.html`.
-4. Wait for deployment.
-5. Netlify will generate a public URL.
+This project is deployed using **Netlify CLI**.
+
+## Step 1: Install Netlify CLI
+
+Install the Netlify CLI globally.
+
+```bash
+npm install -g netlify-cli
+```
+
+---
+
+## Step 2: Login to Netlify
+
+Authenticate your Netlify account.
+
+```bash
+netlify login
+```
+
+---
+
+## Step 3: Initialize the Project
+
+Initialize Netlify from the project root directory.
+
+```bash
+netlify init
+```
+
+Configure the project using the following settings:
+
+**Build Command**
+
+```text
+npm run build
+```
+
+**Publish Directory**
+
+```text
+dist
+```
+
+Allow Netlify to create the `netlify.toml` file when prompted.
+
+---
+
+## Step 4: Configure Environment Variables
+
+Add the required environment variable before deploying.
+
+```bash
+netlify env:set GEMINI_API_KEY your_google_ai_studio_api_key
+```
+
+---
+
+## Step 5: Build the Project
+
+Generate the production build.
+
+```bash
+npm run build
+```
+
+---
+
+## Step 6: Deploy a Preview Version
+
+Deploy a draft version for testing.
+
+```bash
+netlify deploy
+```
+
+Netlify generates a temporary preview URL to verify the application before publishing.
+
+---
+
+## Step 7: Deploy to Production
+
+Publish the application to the production URL.
+
+```bash
+netlify deploy --prod
+```
+
+After deployment, Netlify provides the live production URL for the application.
+
+---
+
+## Updating the Deployment
+
+Whenever changes are made to the project:
+
+```bash
+git add .
+git commit -m "Updated project"
+git push
+```
+
+Build and deploy the latest version.
+
+```bash
+npm run build
+netlify deploy --prod
+```
 
 ---
 
